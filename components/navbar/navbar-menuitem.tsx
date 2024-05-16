@@ -7,16 +7,16 @@ import { cn } from '@/lib/utils';
 
 const routes = [
   {
-    label: 'Test 1',
-    href: '/home',
-  },
-  {
-    label: 'Test 2',
+    label: 'Home',
     href: '/',
   },
   {
-    label: 'Test 3',
-    href: '/',
+    label: 'Project',
+    href: '/project',
+  },
+  {
+    label: 'Contact',
+    href: '/contact',
   },
 ];
 

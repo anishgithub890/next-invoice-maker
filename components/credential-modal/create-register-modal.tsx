@@ -30,6 +30,9 @@ import { useModal } from '@/hooks/use-modal-store';
 import CustomeButton from '@/components/custome-button';
 
 const formSchema = z.object({
+  company: z.string().min(1, {
+    message: 'Company name is required.',
+  }),
   name: z.string().min(1, {
     message: 'Name is required.',
   }),
@@ -52,6 +55,7 @@ export const CreateRegisterModal = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      company: '',
       name: '',
       email: '',
       password: '',
@@ -105,8 +109,29 @@ export const CreateRegisterModal = () => {
             <DialogDescription>Create an account!</DialogDescription>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="space-y-8 px-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+              <div className="space-y-5 px-4">
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                        Company Name
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={isLoading}
+                          {...field}
+                          type="company"
+                          className="bg-zinc-300/50 shadow-sm dark:bg-zinc-200/50 border-0 focus-visible:ring-0 text-black dark:text-zinc-900 focus-visible:ring-offset-0 p-6 text-sm"
+                          placeholder="Enter Company Name"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="name"
@@ -190,7 +215,6 @@ export const CreateRegisterModal = () => {
                       dark:text-zinc-900
                       "
                       >
-                        {' '}
                         Login
                       </span>
                     </p>

@@ -1,6 +1,6 @@
-import Navbar from '@/components/navbar/navbar';
 import ClientOnly from '@/components/client-only';
-import getCurrentUser from '../api/actions/getCurrentUser';
+import getCurrentUser from '@/app/api/actions/getCurrentUser';
+import Navbar from '@/components/navbar/navbar';
 
 const MainLayout = async ({ children }: { children: React.ReactNode }) => {
   const currentUser = await getCurrentUser();

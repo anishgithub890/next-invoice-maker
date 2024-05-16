@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import { NextResponse } from 'next/server';
-import getCurrentUser from '@/app/actions/getCurrentUser';
 
 import prismadb from '@/lib/prismadb';
+import getCurrentUser from '../../actions/getCurrentUser';
 
 export async function GET(
   req: Request,
@@ -63,12 +63,16 @@ export async function PATCH(
 
     const body = await req.json();
 
-    const { name, email, role, password } = body;
+    const { company, name, email, role, password } = body;
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
     if (!currentUser) {
       return new NextResponse('Unauthenticated', { status: 403 });
+    }
+
+    if (!company) {
+      return new NextResponse('Company name is required', { status: 400 });
     }
 
     if (!name) {
@@ -95,6 +99,7 @@ export async function PATCH(
         id: params.registerId,
       },
       data: {
+        company,
         name,
         email,
         role,

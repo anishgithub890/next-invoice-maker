@@ -75,9 +75,7 @@ export const LoginModal = () => {
             onClick: () => console.log('Undo'),
           },
         });
-        router.push('/home');
         router.refresh();
-
         onClose();
       }
 

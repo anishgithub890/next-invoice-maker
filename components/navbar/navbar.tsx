@@ -1,18 +1,19 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { RiTwitterXFill } from 'react-icons/ri';
 
 import { SafeUser } from '@/app/types';
 
 import Container from '@/components/container';
-import Logo from '@/components/logo';
+
 import NavbarMenuItem from '@/components/navbar/navbar-menuitem';
 
 import { MobileSidebar } from '@/components/navbar/navbar-mobilesidebar';
 import { Separator } from '@/components/ui/separator';
 import { ServerHeader } from '@/components/server/server-header';
+
+import Logo from '../logo';
 
 const TOP_OFFSET = 66;
 
@@ -69,7 +70,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           "
           >
             <div className="hidden md:block pb-1">
-              <Logo />
+              <Logo currentUser={currentUser} />
             </div>
 
             <div className="pl-2">
@@ -83,7 +84,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               <div className="h-10 hidden md:block">
                 <Separator orientation="vertical" />
               </div>
-
               <div className="flex flex-col">
                 <ServerHeader currentUser={currentUser} />
               </div>
