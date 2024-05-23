@@ -33,7 +33,9 @@ const Logo = ({ currentUser }: LogoProps) => {
             transition: { duration: 1, repeat: Infinity, scale: 1.1 },
           }}
         >
-          {currentUser?.company}
+          <div>
+            {currentUser ? <div>{currentUser?.company}</div> : <>Invoicer</>}
+          </div>
         </MotionLink>
       </ClientOnly>
     </div>

@@ -29,6 +29,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import CustomeButton from '@/components/custome-button';
+// import PasswordToggle from '../password-toggle';
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -146,6 +147,7 @@ export const LoginModal = () => {
                         placeholder="Enter your password"
                         {...field}
                       />
+                      {/* <PasswordToggle /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>

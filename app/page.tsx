@@ -6,13 +6,13 @@ import Navbar from '@/components/navbar/navbar';
 export default async function Home() {
   const currentUser = await getCurrentUser();
   return (
-    <div className="h-full relative">
-      <main>
-        <ClientOnly>
+    <ClientOnly>
+      <div className="h-full relative">
+        <main>
           <Navbar currentUser={currentUser} />
           <InvoicerPage />
-        </ClientOnly>
-      </main>
-    </div>
+        </main>
+      </div>
+    </ClientOnly>
   );
 }

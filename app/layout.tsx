@@ -9,7 +9,7 @@ import ClientOnly from '@/components/client-only';
 import { ModalProvider } from '@/components/providers/modal-provider';
 import { Toaster } from '@/components/ui/sonner';
 import getCurrentUser from './api/actions/getCurrentUser';
-import NavbarMenuItem from '@/components/navbar/navbar-menuitem';
+import Navbar from '@/components/navbar/navbar';
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -40,7 +40,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ModalProvider />
           <Toaster />
-          <NavbarMenuItem />
+          <Navbar currentUser={currentUser} />
           {children}
         </ClientOnly>
       </body>
