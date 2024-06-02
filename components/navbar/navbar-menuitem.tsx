@@ -11,7 +11,7 @@ const routes = [
     href: '/',
   },
   {
-    label: 'Project',
+    label: 'Create Invoice',
     href: '/project',
   },
   {

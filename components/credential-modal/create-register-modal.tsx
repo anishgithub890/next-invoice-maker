@@ -89,6 +89,28 @@ export const CreateRegisterModal = () => {
       });
       console.log(error);
     }
+    const checkEmailExists = async (email: string) => {
+      try {
+        const url = qs.stringifyUrl({
+          url: '/api/check-email',
+        });
+        const response = await axios.post(url, { email });
+        return response.data.exists;
+      } catch (error) {
+        console.error('Error checking email:', error);
+        return false; // Return false if an error occurs
+      }
+    };
+    const emailExists = await checkEmailExists(values.email);
+    if (emailExists) {
+      toast.error('Email already exists.', {
+        action: {
+          label: 'Close',
+          onClick: () => console.log('Undo'),
+        },
+      });
+      return; // Stop registration process if email already exists
+    }
   };
 
   const handleClose = () => {

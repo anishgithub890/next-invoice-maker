@@ -19,8 +19,35 @@ model User {
   emailVerified   DateTime?
   hashedPassword  String
   role            String  @default("user") // user, admin
+
+  vouchers Voucher[]
+  items     Item[]
   
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
 
+model Voucher {
+  id   String @id @default(uuid()) @map("_id")
+  customerName String
+  date      DateTime
+  total     Float
+  userId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId]) 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items     Item[]
+}
+
+model Item {
+  id        String @id @default(uuid()) @map("_id")
+  name      String
+  price     Float
+  voucherId String 
+  userId    String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  voucher Voucher @relation(fields: [voucherId], references: [id], onDelete: Cascade)
+}

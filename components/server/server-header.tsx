@@ -31,11 +31,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { UserAvatar } from '@/components/user-avatar';
@@ -124,95 +120,18 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({ currentUser }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-3 py-2 text-sm cursor-pointer"
+              onClick={() => router.push('/generate-invoice')}
+            >
+              <AiOutlineProfile className="mr-2 h-4 w-4" />
+              <span>Create Invoice</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="px-3 py-2 text-sm cursor-pointer"
               onClick={() => router.push('/adminusers')}
             >
               <Users className="mr-2 h-4 w-4" />
               <span>Manage Users</span>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/adminskills')}
-            >
-              <GiSkills className="mr-2 h-4 w-4" />
-              <span>Manage Skills</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/adminexperiences')}
-            >
-              <Medal className="mr-2 h-4 w-4" />
-              <span>Manage Experiences</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/admintestimonials')}
-            >
-              <MdReviews className="mr-2 h-4 w-4" />
-              <span>Manage Testimonials</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/adminprojects')}
-            >
-              <GoProjectSymlink className="mr-2 h-4 w-4" />
-              <span>Manage Projects</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/adminresume')}
-            >
-              <MdEditNote className="mr-2 h-4 w-4" />
-              <span>Manage Resume</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="px-3 py-2 text-sm cursor-pointer">
-                <Scale className="mr-2 h-4 w-4" />
-                <span>Legal Policy</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem
-                    className="px-3 py-2 text-sm cursor-pointer"
-                    onClick={() => router.push('/adminprivacypolicy')}
-                  >
-                    <SiGnuprivacyguard className="mr-2 h-4 w-4" />
-                    <span>Privacy Policy</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="px-3 py-2 text-sm cursor-pointer"
-                    onClick={() => router.push('/admintermservice')}
-                  >
-                    <GrServices className="mr-2 h-4 w-4" />
-                    <span>Term Service</span>
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger className="px-3 py-2 text-sm cursor-pointer">
-                <CgMoreVerticalR className="mr-2 h-4 w-4" />
-                <span>Contact & Feedback</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem
-                    className="px-3 py-2 text-sm cursor-pointer"
-                    onClick={() => router.push('/admincontacts')}
-                  >
-                    <Contact className="mr-2 h-4 w-4" />
-                    <span>Manage Contacts</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="px-3 py-2 text-sm cursor-pointer"
-                    onClick={() => router.push('/adminfeedbacks')}
-                  >
-                    <VscFeedback className="mr-2 h-4 w-4" />
-                    <span>Manage Feedbacks</span>
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
 
             <DropdownMenuSeparator />
             <DropdownMenuItem
