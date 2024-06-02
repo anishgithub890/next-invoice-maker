@@ -87,16 +87,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
               <div className="flex flex-col">
                 <ServerHeader currentUser={currentUser} />
               </div>
-              <div className="hidden md:block flex-col pr-2">
-                <a
-                  id="twitterLink"
-                  href="https://twitter.com/anishpabe"
-                  target="_blank"
-                  className="flex h-10 w-10 items-center justify-center rounded-md hover:bg-muted cursor-pointer dark:bg-zinc-900 border"
-                >
-                  <RiTwitterXFill className="w-5 h-5" />
-                </a>
-              </div>
             </div>
           </div>
         </Container>

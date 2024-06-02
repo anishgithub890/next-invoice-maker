@@ -11,10 +11,6 @@ const routes = [
     href: '/',
   },
   {
-    label: 'Create Invoice',
-    href: '/project',
-  },
-  {
     label: 'Contact',
     href: '/contact',
   },

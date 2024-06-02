@@ -19,12 +19,6 @@ const routes = [
     color: 'text-sky-500',
   },
   {
-    label: 'Project',
-    icon: AiFillProject,
-    href: '/project',
-    color: 'text-violet-500',
-  },
-  {
     label: 'Contact',
     icon: MdContacts,
     href: '/contact',
