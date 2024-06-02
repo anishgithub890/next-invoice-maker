@@ -30,13 +30,9 @@ interface InvoiceValues {
 
 interface PreviewInvoiceProps {
   values: InvoiceValues;
-  showReset?: boolean;
 }
 
-const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({
-  values,
-  showReset,
-}) => {
+const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -108,7 +104,7 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({
 
         <article>
           <h2 className="text-2xl text-slate-900 font-bold my-8">
-            Total Amount: {values.totalAmount}
+            Total Amount AED : {values.totalAmount}
           </h2>
         </article>
 
@@ -148,11 +144,11 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({
         </article>
       </div>
       <div>
-        {showReset && (
+        {
           <Button variant="outline" size="lg" onClick={handlePrint}>
             Print Invoice
           </Button>
-        )}
+        }
       </div>
     </>
   );

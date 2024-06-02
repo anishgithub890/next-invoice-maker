@@ -12,7 +12,7 @@ import html2canvas from 'html2canvas';
 
 import { Button } from '@/components/ui/button';
 
-import { Pencil, TrashIcon } from 'lucide-react';
+import { Pencil, TrashIcon, XIcon } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -210,7 +210,8 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
     <>
       <ToastContainer theme="colored" />
 
-      <section className="lg:pl-72 px-4 mt-16 lg:grid lg:grid-cols-2 gap-8">
+      <section className="lg:pl-72 px-4 mt-8 lg:grid lg:grid-cols-2 gap-8">
+        {/* Form */}
         <div>
           <form onSubmit={handleSubmit}>
             <h2 className="text-slate-900 font-bold text-xl mb-8">
@@ -273,82 +274,80 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
-                  <small>Your phone number.</small>
+                  <small>Your phone number or company phone number.</small>
                 </article>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="bank-name">Bank name</label>
+                  <label htmlFor="bankName">Bank name</label>
                   <Input
                     type="text"
-                    name="bank-name"
-                    id="bank-name"
-                    placeholder="Bank name"
+                    name="bankName"
+                    id="bankName"
+                    placeholder="Your bank name"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
                   />
-                  <small>Your official Bank name.</small>
                 </article>
 
                 <article className="article">
-                  <label htmlFor="bank-account">Bank account number</label>
+                  <label htmlFor="bankAccountNumber">Bank account number</label>
                   <Input
                     type="text"
-                    name="bank-account"
-                    id="bank-account"
-                    placeholder="Bank account number"
+                    name="bankAccountNumber"
+                    id="bankAccountNumber"
+                    placeholder="Your bank account number"
                     value={bankAccountNumber}
                     onChange={(e) => setBankAccountNumber(e.target.value)}
                   />
-                  <small>Your official Bank account number.</small>
                 </article>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="invoice-date">Invoice date</label>
+                  <label htmlFor="invoice-date">Invoice Date</label>
                   <Input
                     type="date"
                     name="invoice-date"
                     id="invoice-date"
+                    placeholder="Invoice date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
                   />
-                  <small>Choose a date for invoice.</small>
                 </article>
 
                 <article className="article">
-                  <label htmlFor="due-date">Due date</label>
+                  <label htmlFor="due-date">Due Date</label>
                   <Input
                     type="date"
                     name="due-date"
                     id="due-date"
+                    placeholder="Invoie due date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
                   />
-                  <small>Choose a date to collect payment.</small>
                 </article>
               </div>
             </div>
 
-            <h2 className="text-slate-900 font-bold text-xl mb-8 mt-16">
+            {/* Client details */}
+            <h2 className="text-slate-900 font-bold text-xl my-8">
               Client details
             </h2>
 
             <div className="grid gap-8">
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="client-name">Client name</label>
+                  <label htmlFor="client-name">Client&apos;s name</label>
                   <Input
                     type="text"
                     name="client-name"
                     id="client-name"
-                    placeholder="Client name"
+                    placeholder="Client's name"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                   />
-                  <small>Client official name.</small>
                 </article>
 
                 <article className="article">
@@ -361,44 +360,41 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
                   />
-                  <small>Client email is optional.</small>
                 </article>
               </div>
 
-              <article className="article">
-                <label htmlFor="client-address">Client address</label>
-                <Input
-                  type="text"
-                  name="client-address"
-                  id="client-address"
-                  placeholder="Client address"
-                  value={clientAddress}
-                  onChange={(e) => setClientAddress(e.target.value)}
-                />
-                <small>
-                  Client physical address, company address, street name, or
-                  City.
-                </small>
-              </article>
+              <div className="grid gap-4 md:grid-cols-2">
+                <article className="article">
+                  <label htmlFor="client-address">Client&apos;s address</label>
+                  <Input
+                    type="text"
+                    name="client-address"
+                    id="client-address"
+                    placeholder="Client's address"
+                    value={clientAddress}
+                    onChange={(e) => setClientAddress(e.target.value)}
+                  />
+                </article>
+              </div>
             </div>
 
-            <h2 className="text-slate-900 font-bold text-xl mb-8 mt-16">
-              Invoice details
+            {/* Item descriptions */}
+            <h2 className="text-slate-900 font-bold text-xl my-8">
+              Item descriptions
             </h2>
 
             <div className="grid gap-8">
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="item">Item name</label>
+                  <label htmlFor="item-name">Item name</label>
                   <Input
                     type="text"
-                    name="item"
-                    id="item"
+                    name="item-name"
+                    id="item-name"
                     placeholder="Item name"
                     value={item}
                     onChange={(e) => setItem(e.target.value)}
                   />
-                  <small>Item name.</small>
                 </article>
 
                 <article className="article">
@@ -415,103 +411,116 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                 </article>
               </div>
 
-              <article className="article">
-                <label htmlFor="price">Price</label>
-                <Input
-                  type="number"
-                  name="price"
-                  id="price"
-                  placeholder="Price"
-                  value={price}
-                  onChange={(e) => setPrice(Number(e.target.value))}
-                />
-                <small>Price.</small>
-              </article>
+              <div className="grid gap-4 md:grid-cols-2">
+                <article className="article">
+                  <label htmlFor="price">Price</label>
+                  <Input
+                    type="number"
+                    name="price"
+                    id="price"
+                    placeholder="Price"
+                    value={price}
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                  />
+                </article>
 
-              <article className="article">
-                <label htmlFor="total">Total</label>
-                <Input
-                  type="number"
-                  name="total"
-                  id="total"
-                  placeholder="Total"
-                  value={total}
-                  onChange={(e) => setTotal(Number(e.target.value))}
-                  readOnly
-                />
-                <small>Total amount.</small>
-              </article>
+                <article className="article">
+                  <label htmlFor="total">Total</label>
+                  <div>{total}</div>
+                </article>
+              </div>
 
-              <article className="article">
-                <label htmlFor="notes">Notes</label>
-                <Textarea
-                  name="notes"
-                  id="notes"
-                  placeholder="Notes"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                />
-                <small>Additional notes (optional).</small>
-              </article>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Button variant="default">Add Item</Button>
+              </div>
+
+              <div className="space-y-4">
+                {items.map((item) => (
+                  <article
+                    key={item.id}
+                    className="flex items-center justify-between"
+                  >
+                    <div className="flex gap-4">
+                      <p>{item.item}</p>
+                      <p>{item.quantity}</p>
+                      <p>{item.price}</p>
+                    </div>
+
+                    <div>
+                      <ul className="flex gap-4">
+                        <li>
+                          <Button
+                            variant="destructive"
+                            onClick={() => handleDelete(item.id)}
+                          >
+                            <TrashIcon />
+                          </Button>
+                        </li>
+                        <li>
+                          <Button
+                            variant="secondary"
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            <Pencil />
+                          </Button>
+                        </li>
+                      </ul>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <article className="article">
+                  <label htmlFor="narration">Additional notes</label>
+                  <Textarea
+                    name="narration"
+                    id="narration-notes"
+                    cols={30}
+                    rows={3}
+                    placeholder="Important narration the client should know about"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                  />
+                </article>
+              </div>
             </div>
 
-            <Button type="submit" className="mt-8">
-              {isEditing ? 'Update item' : 'Add item'}
-            </Button>
+            <div className="mt-8 pb-12">
+              <Button onClick={() => setPreviewInvoice(true)}>
+                Preview Invoice
+              </Button>
+            </div>
           </form>
-
-          <div className="mt-8">
-            <h2 className="text-slate-900 font-bold text-xl mb-4">
-              Items ({items.length})
-            </h2>
-
-            <table className="min-w-full bg-white">
-              <thead>
-                <tr>
-                  <th className="py-2 px-4 border-b-2">Item</th>
-                  <th className="py-2 px-4 border-b-2">Quantity</th>
-                  <th className="py-2 px-4 border-b-2">Price</th>
-                  <th className="py-2 px-4 border-b-2">Total</th>
-                  <th className="py-2 px-4 border-b-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {items.map((item) => (
-                  <tr key={item.id}>
-                    <td className="py-2 px-4 border-b">{item.item}</td>
-                    <td className="py-2 px-4 border-b">{item.quantity}</td>
-                    <td className="py-2 px-4 border-b">{item.price}</td>
-                    <td className="py-2 px-4 border-b">{item.total}</td>
-                    <td className="py-2 px-4 border-b">
-                      <Button
-                        variant="link"
-                        onClick={() => handleEdit(item.id)}
-                        className="text-blue-600"
-                      >
-                        <Pencil />
-                      </Button>
-                      <Button
-                        variant="link"
-                        onClick={() => handleDelete(item.id)}
-                        className="text-red-600"
-                      >
-                        <TrashIcon />
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
         </div>
 
+        {/* Invoice preview */}
         <div>
           <PreviewInvoice values={values} />
-
-          <Button onClick={() => createPDF()} className="mt-8">
-            Download PDF
-          </Button>
         </div>
+
+        {previewInvoice && (
+          <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/75">
+            <div className="max-w-5xl mx-auto">
+              <ul className="mt-20 flex items-center justify-between">
+                <li>
+                  <Button onClick={createPDF} variant="secondary">
+                    Download Invoice
+                  </Button>
+                </li>
+                <li>
+                  <Button
+                    onClick={() => setPreviewInvoice(false)}
+                    variant="secondary"
+                  >
+                    <XIcon />
+                  </Button>
+                </li>
+              </ul>
+              <PreviewInvoice values={values} />
+            </div>
+          </div>
+        )}
       </section>
     </>
   );
