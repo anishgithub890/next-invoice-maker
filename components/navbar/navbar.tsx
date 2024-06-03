@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { RiTwitterXFill } from 'react-icons/ri';
 
 import { SafeUser } from '@/app/types';
 

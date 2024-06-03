@@ -25,7 +25,7 @@ export const InvoiceClient: React.FC<InvoiceClientProps> = ({ data }) => {
           description="Manage invoices"
         />
         <Button onClick={() => router.push(`/generate-invoice/new`)}>
-          <Plus className="mr-2 h-4 w-4" /> Add New
+          <Plus className="mr-2 h-4 w-4" /> Add Invoice
         </Button>
       </div>
       <Separator />

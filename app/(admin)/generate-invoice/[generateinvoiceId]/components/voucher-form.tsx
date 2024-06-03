@@ -3,8 +3,9 @@
 import { useEffect, useState, FormEvent } from 'react';
 import { Voucher } from '@prisma/client';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'sonner';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import { v4 as uuidv4 } from 'uuid';
 import { jsPDF } from 'jspdf';
@@ -208,7 +209,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
 
   return (
     <>
-      <ToastContainer theme="colored" />
+      {/* <ToastContainer theme="colored" /> */}
 
       <section className="lg:pl-72 px-4 mt-8 lg:grid lg:grid-cols-2 gap-8">
         {/* Form */}
@@ -453,7 +454,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                             variant="destructive"
                             onClick={() => handleDelete(item.id)}
                           >
-                            <TrashIcon />
+                            <TrashIcon className="w-4 h-4" />
                           </Button>
                         </li>
                         <li>
@@ -461,7 +462,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                             variant="secondary"
                             onClick={() => handleEdit(item.id)}
                           >
-                            <Pencil />
+                            <Pencil className="w-4 h-4" />
                           </Button>
                         </li>
                       </ul>

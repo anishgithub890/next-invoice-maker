@@ -106,7 +106,7 @@ export const ServerHeader: React.FC<ServerHeaderProps> = ({ currentUser }) => {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="px-3 py-2 text-sm cursor-pointer"
-              onClick={() => router.push('/admindashboard')}
+              onClick={() => router.push('/dashboard')}
             >
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
