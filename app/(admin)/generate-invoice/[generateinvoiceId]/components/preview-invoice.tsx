@@ -22,6 +22,8 @@ interface InvoiceValues {
   dueDate?: string;
   items: Item[];
   totalAmount: number;
+  vat: number;
+  taxableAmount: number;
   notes?: string;
   bankName?: string;
   bankAccountNumber?: string;
@@ -43,15 +45,15 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
       <div
         ref={componentRef}
         id="pdf"
-        className="bg-white sticky top-4 border border-slate-300 p-4 rounded-lg scale-75"
+        className="bg-white border border-slate-300 p-4 rounded-lg scale-75"
       >
-        <article className="flex flex-col items-end justify-end">
+        <article className="flex flex-col items-end justify-end mb-8">
           <h2 className="text-2xl text-slate-900 font-bold">{values.name}</h2>
           <p className="text-muted-foreground">{values.email}</p>
           <p className="text-muted-foreground">{values.address}</p>
         </article>
 
-        <article className="my-8">
+        <article className="mb-8">
           <h2 className="text-2xl text-slate-900 font-bold">
             {values.clientName}
           </h2>
@@ -59,7 +61,7 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
           <p className="text-muted-foreground">{values.clientAddress}</p>
         </article>
 
-        <article className="my-8 flex flex-col items-end justify-end">
+        <article className="mb-8 flex flex-col items-end justify-end">
           <h2 className="text-2xl text-slate-900 font-bold">Invoice Details</h2>
           <p className="text-muted-foreground">
             Invoice date:{' '}
@@ -76,13 +78,12 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
           <table width="100%">
             <thead>
               <tr className="bg-slate-200">
-                <td>Item Name</td>
-                <td>Quantity</td>
-                <td>Price</td>
-                <td>Total</td>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
               </tr>
             </thead>
-
             <tbody>
               {values.items.map((item) => (
                 <tr key={item.id}>
@@ -102,18 +103,23 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
           </table>
         </article>
 
-        <article>
-          <h2 className="text-2xl text-slate-900 font-bold my-8">
-            Total Amount AED : {values.totalAmount}
+        <article className="mb-8">
+          <h2 className="text-2xl text-slate-900 font-bold">
+            Total Amount AED: {values.totalAmount}
+          </h2>
+          <h2 className="text-2xl text-slate-900 font-bold">
+            VAT (5%): {values.vat}
+          </h2>
+          <h2 className="text-2xl text-slate-900 font-bold">
+            Taxable Amount AED: {values.taxableAmount}
           </h2>
         </article>
 
-        <article className="pb-8">
+        <article className="mb-8">
           <h4 className="text-lg text-slate-800 font-bold">Additional notes</h4>
           <p className="text-muted-foreground w-1/2 text-xs">{values.notes}</p>
         </article>
 
-        {/* Invoice footer */}
         <article className="border-t border-slate-300 py-8">
           <ul className="flex flex-wrap items-center justify-center gap-4">
             <li className="text-muted-foreground text-sm">
@@ -143,13 +149,34 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
           </ul>
         </article>
       </div>
-      <div>
-        {
-          <Button variant="outline" size="lg" onClick={handlePrint}>
-            Print Invoice
-          </Button>
-        }
+      <div className="mt-4">
+        <Button variant="outline" size="lg" onClick={handlePrint}>
+          Print Invoice
+        </Button>
       </div>
+
+      <style jsx>{`
+        @media print {
+          #pdf {
+            width: 100%;
+            border: none;
+            padding: 0;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+          }
+          th,
+          td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+          }
+          .text-muted-foreground {
+            color: #6b7280;
+          }
+        }
+      `}</style>
     </>
   );
 };

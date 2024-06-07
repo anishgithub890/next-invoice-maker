@@ -64,6 +64,8 @@ interface Values {
   notes: string;
   setNotes: React.Dispatch<React.SetStateAction<string>>;
   totalAmount: number;
+  vat: number;
+  taxableAmount: number;
 }
 
 interface VoucherFormProps {
@@ -96,6 +98,9 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const [previewInvoice, setPreviewInvoice] = useState(false);
+
+  const [vat, setVat] = useState(0);
+  const [taxableAmount, setTaxableAmount] = useState(0);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -130,6 +135,10 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
     const allItems = items.map((item) => item.total);
     const sum = allItems.reduce((acc, curr) => acc + curr, 0);
     setTotalAmount(sum);
+
+    const vatAmount = sum * 0.05;
+    setVat(vatAmount);
+    setTaxableAmount(sum + vatAmount);
   }
 
   useEffect(() => {
@@ -205,13 +214,13 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
     notes,
     setNotes,
     totalAmount,
+    vat,
+    taxableAmount,
   };
 
   return (
     <>
-      {/* <ToastContainer theme="colored" /> */}
-
-      <section className="lg:pl-72 px-4 mt-8 lg:grid lg:grid-cols-2 gap-8">
+      <section className="pl-10 pr-10 px-4 mt-8 lg:grid lg:grid-cols-1 gap-8">
         {/* Form */}
         <div>
           <form onSubmit={handleSubmit}>
@@ -227,9 +236,18 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     type="text"
                     name="name"
                     id="name"
+                    required
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('email');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
                   <small>Your official name, or company name.</small>
                 </article>
@@ -243,6 +261,14 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     placeholder="Your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('address');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
                   <small>Your email is optional.</small>
                 </article>
@@ -258,6 +284,15 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     placeholder="Your address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('phone-number');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
                   <small>
                     Your physical address, company address, street name, or
@@ -268,71 +303,75 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                 <article className="article">
                   <label htmlFor="phone-number">Phone number</label>
                   <Input
-                    type="text"
+                    type="tel"
                     name="phone-number"
                     id="phone-number"
-                    placeholder="Your phone number"
+                    placeholder="Phone number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('bank-name');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
-                  <small>Your phone number or company phone number.</small>
+                  <small>Your active phone number.</small>
                 </article>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="bankName">Bank name</label>
+                  <label htmlFor="bank-name">Bank name</label>
                   <Input
                     type="text"
-                    name="bankName"
-                    id="bankName"
-                    placeholder="Your bank name"
+                    name="bank-name"
+                    id="bank-name"
+                    placeholder="Bank name"
                     value={bankName}
                     onChange={(e) => setBankName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById(
+                          'bank-account-number'
+                        );
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
+                  <small>Your bank name</small>
                 </article>
 
                 <article className="article">
-                  <label htmlFor="bankAccountNumber">Bank account number</label>
+                  <label htmlFor="bank-account-number">
+                    Bank account number
+                  </label>
                   <Input
                     type="text"
-                    name="bankAccountNumber"
-                    id="bankAccountNumber"
-                    placeholder="Your bank account number"
+                    name="bank-account-number"
+                    id="bank-account-number"
+                    placeholder="Bank account number"
                     value={bankAccountNumber}
                     onChange={(e) => setBankAccountNumber(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('client-name');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
-                </article>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2">
-                <article className="article">
-                  <label htmlFor="invoice-date">Invoice Date</label>
-                  <Input
-                    type="date"
-                    name="invoice-date"
-                    id="invoice-date"
-                    placeholder="Invoice date"
-                    value={invoiceDate}
-                    onChange={(e) => setInvoiceDate(e.target.value)}
-                  />
-                </article>
-
-                <article className="article">
-                  <label htmlFor="due-date">Due Date</label>
-                  <Input
-                    type="date"
-                    name="due-date"
-                    id="due-date"
-                    placeholder="Invoie due date"
-                    value={dueDate}
-                    onChange={(e) => setDueDate(e.target.value)}
-                  />
+                  <small>Your bank account number</small>
                 </article>
               </div>
             </div>
 
-            {/* Client details */}
             <h2 className="text-slate-900 font-bold text-xl my-8">
               Client details
             </h2>
@@ -340,15 +379,25 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
             <div className="grid gap-8">
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="client-name">Client&apos;s name</label>
+                  <label htmlFor="client-name">Client name</label>
                   <Input
                     type="text"
                     name="client-name"
                     id="client-name"
-                    placeholder="Client's name"
+                    placeholder="Client name"
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('client-email');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
+                  <small>Client official name, or company name.</small>
                 </article>
 
                 <article className="article">
@@ -360,26 +409,95 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     placeholder="Client email"
                     value={clientEmail}
                     onChange={(e) => setClientEmail(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('client-address');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
+                  <small>Client email is optional.</small>
                 </article>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="client-address">Client&apos;s address</label>
+                  <label htmlFor="client-address">
+                    Client Physical / Company address
+                  </label>
                   <Input
                     type="text"
                     name="client-address"
                     id="client-address"
-                    placeholder="Client's address"
+                    placeholder="Client address"
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('invoice-date');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
+                  <small>
+                    Client physical address, company address, street name, or
+                    City.
+                  </small>
+                </article>
+
+                <article className="article">
+                  <label htmlFor="invoice-date">Invoice date</label>
+                  <Input
+                    type="date"
+                    name="invoice-date"
+                    id="invoice-date"
+                    placeholder="Invoice date"
+                    value={invoiceDate}
+                    onChange={(e) => setInvoiceDate(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('due-date');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
+                  />
+                  <small>Date the invoice was created.</small>
+                </article>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <article className="article">
+                  <label htmlFor="due-date">Due date</label>
+                  <Input
+                    type="date"
+                    name="due-date"
+                    id="due-date"
+                    placeholder="Due date"
+                    value={dueDate}
+                    onChange={(e) => setDueDate(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput =
+                          document.getElementById('item-description');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
+                  />
+                  <small>Date the invoice is due.</small>
                 </article>
               </div>
             </div>
 
-            {/* Item descriptions */}
             <h2 className="text-slate-900 font-bold text-xl my-8">
               Item descriptions
             </h2>
@@ -387,15 +505,24 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
             <div className="grid gap-8">
               <div className="grid gap-4 md:grid-cols-2">
                 <article className="article">
-                  <label htmlFor="item-name">Item name</label>
+                  <label htmlFor="item-description">Item description</label>
                   <Input
                     type="text"
-                    name="item-name"
-                    id="item-name"
-                    placeholder="Item name"
+                    name="item-description"
+                    id="item-description"
+                    placeholder="Item description"
                     value={item}
                     onChange={(e) => setItem(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('quantity');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
+                  <small>Enter the item name or description.</small>
                 </article>
 
                 <article className="article">
@@ -406,9 +533,17 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     id="quantity"
                     placeholder="Quantity"
                     value={quantity}
-                    onChange={(e) => setQuantity(Number(e.target.value))}
+                    onChange={(e) => setQuantity(+e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const nextInput = document.getElementById('price');
+                        if (nextInput) {
+                          nextInput.focus();
+                        }
+                      }
+                    }}
                   />
-                  <small>Quantity.</small>
+                  <small>Enter the quantity.</small>
                 </article>
               </div>
 
@@ -421,32 +556,62 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     id="price"
                     placeholder="Price"
                     value={price}
-                    onChange={(e) => setPrice(Number(e.target.value))}
+                    onChange={(e) => setPrice(+e.target.value)}
                   />
-                </article>
-
-                <article className="article">
-                  <label htmlFor="total">Total</label>
-                  <div>{total}</div>
+                  <small>Enter the price or rate per itemx.</small>
                 </article>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Button variant="default">Add Item</Button>
+                <article className="article">
+                  <label htmlFor="total">Total</label>
+                  <Input
+                    type="number"
+                    name="total"
+                    id="total"
+                    placeholder="Total"
+                    readOnly
+                    value={total}
+                    onChange={(e) => setTotal(+e.target.value)}
+                  />
+                  <small>Total amount for the item/service.</small>
+                </article>
               </div>
+            </div>
 
+            <div className="grid gap-4 md:grid-cols-2 mt-8">
+              <Button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-500 transition text-white px-4 py-2 rounded-md"
+              >
+                Add Item
+              </Button>
+              {isEditing && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Cancel Editing
+                </Button>
+              )}
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-slate-900 font-bold text-xl mb-8">
+                Items List
+              </h2>
               <div className="space-y-4">
                 {items.map((item) => (
                   <article
                     key={item.id}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between border-b pb-2"
                   >
                     <div className="flex gap-4">
                       <p>{item.item}</p>
                       <p>{item.quantity}</p>
                       <p>{item.price}</p>
                     </div>
-
                     <div>
                       <ul className="flex gap-4">
                         <li>
@@ -470,54 +635,60 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                   </article>
                 ))}
               </div>
+            </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <article className="article">
-                  <label htmlFor="narration">Additional notes</label>
-                  <Textarea
-                    name="narration"
-                    id="narration-notes"
-                    cols={30}
-                    rows={3}
-                    placeholder="Important narration the client should know about"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                  />
-                </article>
+            <div className="mt-8">
+              <h2 className="text-slate-900 font-bold text-xl mb-8">
+                Additional Notes
+              </h2>
+              <Textarea
+                id="notes"
+                placeholder="Add any additional notes here..."
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-8 border-t pt-4">
+              <h2 className="text-slate-900 font-bold text-xl mb-4">Summary</h2>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <p>Subtotal:</p>
+                  <p>{totalAmount}</p>
+                </div>
+                <div className="flex justify-between">
+                  <p>VAT (5%):</p>
+                  <p>{vat}</p>
+                </div>
+                <div className="flex justify-between font-bold">
+                  <p>Total Amount:</p>
+                  <p>{taxableAmount}</p>
+                </div>
               </div>
             </div>
 
-            <div className="mt-8 pb-12">
-              <Button onClick={() => setPreviewInvoice(true)}>
+            <div className="mt-8">
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => setPreviewInvoice(true)}
+              >
                 Preview Invoice
               </Button>
             </div>
           </form>
         </div>
 
-        {/* Invoice preview */}
-        <div>
-          <PreviewInvoice values={values} />
-        </div>
-
         {previewInvoice && (
-          <div className="fixed top-0 left-0 right-0 bottom-0 bg-black/75">
-            <div className="max-w-5xl mx-auto">
-              <ul className="mt-20 flex items-center justify-between">
-                <li>
-                  <Button onClick={createPDF} variant="secondary">
-                    Download Invoice
-                  </Button>
-                </li>
-                <li>
-                  <Button
-                    onClick={() => setPreviewInvoice(false)}
-                    variant="secondary"
-                  >
-                    <XIcon />
-                  </Button>
-                </li>
-              </ul>
+          <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full h-full max-h-[80%] max-w-[80%] mx-auto relative overflow-auto">
+              <Button
+                variant="secondary"
+                className="absolute top-4 right-4"
+                onClick={() => setPreviewInvoice(false)}
+              >
+                <XIcon className="w-4 h-4" />
+              </Button>
               <PreviewInvoice values={values} />
             </div>
           </div>

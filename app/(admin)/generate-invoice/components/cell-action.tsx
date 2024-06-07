@@ -30,11 +30,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/projects/${data.id}`);
-      toast.success('Project deleted.');
+      await axios.delete(`/api/invoice/${data.id}`);
+      toast.success('Invoice deleted.');
       router.refresh();
     } catch (error) {
-      toast.error('Make sure you removed all projects.');
+      toast.error('Something went wrong.');
     } finally {
       setOpen(false);
       setLoading(false);
@@ -43,7 +43,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast.success('Project ID copied to clipboard.');
+    toast.success('Invoice ID copied to clipboard.');
   };
 
   return (
@@ -67,7 +67,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Copy className="mr-2 h-4 w-4" /> Copy Id
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => router.push(`/adminprojects/${data.id}`)}
+            onClick={() => router.push(`/generate-invoice/${data.id}`)}
           >
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
