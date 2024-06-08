@@ -10,10 +10,6 @@ const routes = [
     label: 'Home',
     href: '/',
   },
-  {
-    label: 'Contact',
-    href: '/contact',
-  },
 ];
 
 const NavbarMenuItem = () => {

@@ -655,7 +655,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                   </div>
                   <div className="flex justify-between">
                     <p>VAT (5%):</p>
-                    <p>{vat}</p>
+                    <p>{vat.toFixed(3)}</p>
                   </div>
                   <div className="flex justify-between font-bold">
                     <p>Total Amount:</p>

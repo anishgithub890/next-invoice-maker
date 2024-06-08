@@ -34,7 +34,11 @@ const Logo = ({ currentUser }: LogoProps) => {
           }}
         >
           <div>
-            {currentUser ? <div>{currentUser?.company}</div> : <>Invoicer</>}
+            {currentUser ? (
+              <div>{currentUser?.company}</div>
+            ) : (
+              <div>Invoicer</div>
+            )}
           </div>
         </MotionLink>
       </ClientOnly>

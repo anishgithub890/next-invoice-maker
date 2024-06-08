@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { format } from 'date-fns';
 import { useReactToPrint } from 'react-to-print';
 import { Button } from '@/components/ui/button';
+// import QRCode from 'qrcode.react';
 
 interface Item {
   id: string;
@@ -39,6 +40,32 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
+
+  const handleDownload = () => {
+    if (componentRef.current) {
+      import('html2canvas').then((html2canvas) => {
+        import('jspdf').then((jsPDF) => {
+          const element = componentRef.current!;
+          const width = element.offsetWidth;
+          const height = element.offsetHeight;
+          const scale = 2; // Increase scale for better quality (optional)
+
+          html2canvas.default(element, { scale: scale }).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF.default('p', 'mm', 'a4');
+
+            // Calculate the aspect ratio to maintain proper width on the PDF
+            const aspectRatio = width / height;
+            const pdfWidth = 210; // A4 width in mm
+            const pdfHeight = pdfWidth / aspectRatio;
+
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`${values.name || 'invoice'}.pdf`);
+          });
+        });
+      });
+    }
+  };
 
   return (
     <>
@@ -108,7 +135,7 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
                     {item.total}
                   </td>
                   <td className="p-2 border text-muted-foreground text-sm">
-                    {(item.total * 0.05).toFixed(2)}
+                    {(item.total * 0.05).toFixed(3)}
                   </td>
                 </tr>
               ))}
@@ -129,7 +156,7 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
                   VAT (5%)
                 </td>
                 <td className="p-2 border text-slate-900 font-bold">
-                  {values.vat}
+                  {values.vat.toFixed(3)}
                 </td>
               </tr>
               <tr>
@@ -185,12 +212,26 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
               {values.phoneNumber}
             </li>
           </ul>
+          {/* QR Code */}
+          {/* <div className="mt-4 flex justify-end"> */}
+          {/* <div className="w-24"> */}
+          {/* <h3 className="text-sm text-slate-800 font-bold">Scan QR</h3> */}
+          {/* <QRCode
+                value="https://anishpabe.vercel.app"
+                size={64}
+                className="pt-1"
+              /> */}
+          {/* </div> */}
+          {/* </div> */}
         </footer>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex space-x-4">
         <Button variant="outline" size="lg" onClick={handlePrint}>
           Print Invoice
+        </Button>
+        <Button variant="outline" size="lg" onClick={handleDownload}>
+          Download Invoice
         </Button>
       </div>
 

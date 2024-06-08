@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus } from 'lucide-react';
+import { ReceiptText } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
@@ -31,7 +31,7 @@ export const InvoiceClient: React.FC<InvoiceClientProps> = ({ data }) => {
           description="Manage invoices"
         />
         <Button onClick={goToNewInvoice}>
-          <Plus className="mr-2 h-4 w-4" /> Add New Invoice
+          <ReceiptText className="mr-2 h-4 w-4" /> Add Invoice
         </Button>
       </div>
       <Separator />

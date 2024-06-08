@@ -1,6 +1,5 @@
 import getCurrentUser from '@/app/api/actions/getCurrentUser';
 import ClientOnly from '@/components/client-only';
-import Container from '@/components/container';
 import IntroCard from './intro-card';
 
 const InvoicerPage = async () => {
@@ -9,14 +8,12 @@ const InvoicerPage = async () => {
   return (
     <>
       <ClientOnly>
-        <Container>
-          <div className="pt-[2px]">
-            {/* intro-screen */}
-            <div>
-              <IntroCard />
-            </div>
+        <div className="pt-[2px]">
+          {/* intro-screen */}
+          <div>
+            <IntroCard currentUser={currentUser} />
           </div>
-        </Container>
+        </div>
       </ClientOnly>
     </>
   );

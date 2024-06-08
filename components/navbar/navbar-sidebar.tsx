@@ -2,11 +2,8 @@
 
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import { AiFillProject } from 'react-icons/ai';
-import { MdContacts } from 'react-icons/md';
 
 import { usePathname } from 'next/navigation';
-
 import { cn } from '@/lib/utils';
 import Logo from '../logo';
 import { SafeUser } from '@/app/types';
@@ -17,12 +14,6 @@ const routes = [
     icon: Home,
     href: '/',
     color: 'text-sky-500',
-  },
-  {
-    label: 'Contact',
-    icon: MdContacts,
-    href: '/contact',
-    color: 'text-pink-700',
   },
 ];
 
