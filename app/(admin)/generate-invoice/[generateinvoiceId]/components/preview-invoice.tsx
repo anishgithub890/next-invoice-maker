@@ -47,22 +47,28 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
         id="pdf"
         className="bg-white border border-slate-300 p-4 rounded-lg scale-75"
       >
-        <article className="flex flex-col items-end justify-end mb-8">
-          <h2 className="text-2xl text-slate-900 font-bold">{values.name}</h2>
-          <p className="text-muted-foreground">{values.email}</p>
-          <p className="text-muted-foreground">{values.address}</p>
-        </article>
+        {/* Header Section */}
+        <header className="flex justify-between items-center mb-8">
+          <img src="/images/wing.png" alt="Logo" className="w-20 h-20" />
+          <div className="text-right">
+            <h2 className="text-2xl text-slate-900 font-bold">{values.name}</h2>
+            <p className="text-muted-foreground">{values.email}</p>
+            <p className="text-muted-foreground">{values.address}</p>
+          </div>
+        </header>
 
-        <article className="mb-8">
+        {/* Client Information */}
+        <section className="mb-8">
           <h2 className="text-2xl text-slate-900 font-bold">
             {values.clientName}
           </h2>
           <p className="text-muted-foreground">{values.clientEmail}</p>
           <p className="text-muted-foreground">{values.clientAddress}</p>
-        </article>
+        </section>
 
-        <article className="mb-8 flex flex-col items-end justify-end">
-          <h2 className="text-2xl text-slate-900 font-bold">Invoice Details</h2>
+        {/* Invoice Details */}
+        <section className="mb-8 text-right">
+          <h2 className="text-2xl text-slate-900 font-bold">TAX INVOICE</h2>
           <p className="text-muted-foreground">
             Invoice date:{' '}
             {values.invoiceDate &&
@@ -72,55 +78,87 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
             Due date:{' '}
             {values.dueDate && format(new Date(values.dueDate), 'do MMMM yyyy')}
           </p>
-        </article>
+        </section>
 
-        <article className="mb-8">
-          <table width="100%">
+        {/* Items Table */}
+        <section className="mb-8">
+          <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-slate-200">
-                <th>Item Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
+              <tr className="bg-slate-200 text-left">
+                <th className="p-2 border">Item Name</th>
+                <th className="p-2 border">Quantity</th>
+                <th className="p-2 border">Price</th>
+                <th className="p-2 border">Total</th>
+                <th className="p-2 border">VAT 5%</th>
               </tr>
             </thead>
             <tbody>
               {values.items.map((item) => (
                 <tr key={item.id}>
-                  <td className="text-muted-foreground text-sm">{item.item}</td>
-                  <td className="text-muted-foreground text-sm">
+                  <td className="p-2 border text-muted-foreground text-sm">
+                    {item.item}
+                  </td>
+                  <td className="p-2 border text-muted-foreground text-sm">
                     {item.quantity}
                   </td>
-                  <td className="text-muted-foreground text-sm">
+                  <td className="p-2 border text-muted-foreground text-sm">
                     {item.price}
                   </td>
-                  <td className="text-muted-foreground text-sm">
+                  <td className="p-2 border text-muted-foreground text-sm">
                     {item.total}
+                  </td>
+                  <td className="p-2 border text-muted-foreground text-sm">
+                    {(item.total * 0.05).toFixed(2)}
                   </td>
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={3} className="p-2 border"></td>
+                <td className="p-2 border text-right text-slate-900 font-bold">
+                  Subtotal
+                </td>
+                <td className="p-2 border text-slate-900 font-bold">
+                  {values.totalAmount}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={3} className="p-2 border"></td>
+                <td className="p-2 border text-right text-slate-900 font-bold">
+                  VAT (5%)
+                </td>
+                <td className="p-2 border text-slate-900 font-bold">
+                  {values.vat}
+                </td>
+              </tr>
+              <tr>
+                <td colSpan={3} className="p-2 border"></td>
+                <td className="p-2 border text-right text-slate-900 font-bold">
+                  Total
+                </td>
+                <td className="p-2 border text-slate-900 font-bold">
+                  {values.taxableAmount}
+                </td>
+              </tr>
+            </tfoot>
           </table>
-        </article>
+        </section>
 
-        <article className="mb-8">
-          <h2 className="text-2xl text-slate-900 font-bold">
-            Total Amount AED: {values.totalAmount}
-          </h2>
-          <h2 className="text-2xl text-slate-900 font-bold">
-            VAT (5%): {values.vat}
-          </h2>
-          <h2 className="text-2xl text-slate-900 font-bold">
-            Taxable Amount AED: {values.taxableAmount}
-          </h2>
-        </article>
+        {/* Additional Notes */}
+        {values.notes && (
+          <section className="mb-8">
+            <h4 className="text-lg text-slate-800 font-bold">
+              Additional notes
+            </h4>
+            <p className="text-muted-foreground w-1/2 text-xs">
+              {values.notes}
+            </p>
+          </section>
+        )}
 
-        <article className="mb-8">
-          <h4 className="text-lg text-slate-800 font-bold">Additional notes</h4>
-          <p className="text-muted-foreground w-1/2 text-xs">{values.notes}</p>
-        </article>
-
-        <article className="border-t border-slate-300 py-8">
+        {/* Footer Information */}
+        <footer className="border-t border-slate-300 py-8">
           <ul className="flex flex-wrap items-center justify-center gap-4">
             <li className="text-muted-foreground text-sm">
               <span className="text-slate-800 font-bold">Email:</span>{' '}
@@ -147,8 +185,9 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
               {values.phoneNumber}
             </li>
           </ul>
-        </article>
+        </footer>
       </div>
+
       <div className="mt-4">
         <Button variant="outline" size="lg" onClick={handlePrint}>
           Print Invoice

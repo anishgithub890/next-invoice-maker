@@ -161,23 +161,6 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
     setPrice(editingRow.price);
   }
 
-  function createPDF() {
-    const invoice = document.getElementById('pdf');
-    if (!invoice) return;
-
-    html2canvas(invoice, {
-      logging: true,
-      useCORS: true,
-    }).then((canvas) => {
-      const imgWidth = 208;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('portrait', 'mm', 'a4');
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save(`${clientName}.pdf`);
-    });
-  }
-
   const values: Values = {
     name,
     setName,
@@ -236,7 +219,6 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     type="text"
                     name="name"
                     id="name"
-                    required
                     placeholder="Your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -601,75 +583,91 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
               <h2 className="text-slate-900 font-bold text-xl mb-8">
                 Items List
               </h2>
-              <div className="space-y-4">
-                {items.map((item) => (
-                  <article
-                    key={item.id}
-                    className="flex items-center justify-between border-b pb-2"
-                  >
-                    <div className="flex gap-4">
-                      <p>{item.item}</p>
-                      <p>{item.quantity}</p>
-                      <p>{item.price}</p>
-                    </div>
-                    <div>
-                      <ul className="flex gap-4">
-                        <li>
+              <div className="overflow-x-auto">
+                <table className="min-w-full bg-white table-fixed">
+                  <thead>
+                    <tr>
+                      <th className="w-1/6 py-2 px-4 border-b">Items Name</th>
+                      <th className="w-1/6 py-2 px-4 border-b">Quantity</th>
+                      <th className="w-1/6 py-2 px-4 border-b">Price</th>
+                      <th className="w-1/6 py-2 px-4 border-b">Total</th>
+                      <th className="w-1/6 py-2 px-4 border-b">Vat 5%</th>
+                      <th className="w-1/6 py-2 px-4 border-b">
+                        Taxable Amount
+                      </th>
+                      <th className="w-1/6 py-2 px-4 border-b">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item) => (
+                      <tr key={item.id} className="border-b">
+                        <td className="py-2 px-4">{item.item}</td>
+                        <td className="py-2 px-4">{item.quantity}</td>
+                        <td className="py-2 px-4">{item.price}</td>
+                        <td className="py-2 px-4">{item.total}</td>
+                        <td className="py-2 px-4">
+                          {(item.total * 0.05).toFixed(3)}
+                        </td>
+                        <td className="py-2 px-4">
+                          {item.total * 0.05 + item.total}
+                        </td>
+                        <td className="py-2 px-4 flex gap-2">
                           <Button
                             variant="destructive"
                             onClick={() => handleDelete(item.id)}
                           >
                             <TrashIcon className="w-4 h-4" />
                           </Button>
-                        </li>
-                        <li>
                           <Button
                             variant="secondary"
                             onClick={() => handleEdit(item.id)}
                           >
                             <Pencil className="w-4 h-4" />
                           </Button>
-                        </li>
-                      </ul>
-                    </div>
-                  </article>
-                ))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
+            <div className="lg:grid lg:grid-cols-2 gap-14">
+              <div className="mt-8">
+                <h2 className="text-slate-900 font-bold text-xl mb-8">
+                  Additional Notes
+                </h2>
+                <Textarea
+                  id="notes"
+                  placeholder="Add any additional notes here..."
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                />
+              </div>
 
-            <div className="mt-8">
-              <h2 className="text-slate-900 font-bold text-xl mb-8">
-                Additional Notes
-              </h2>
-              <Textarea
-                id="notes"
-                placeholder="Add any additional notes here..."
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-              />
-            </div>
-
-            <div className="mt-8 border-t pt-4">
-              <h2 className="text-slate-900 font-bold text-xl mb-4">Summary</h2>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <p>Subtotal:</p>
-                  <p>{totalAmount}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>VAT (5%):</p>
-                  <p>{vat}</p>
-                </div>
-                <div className="flex justify-between font-bold">
-                  <p>Total Amount:</p>
-                  <p>{taxableAmount}</p>
+              <div className="mt-8 border-t pt-4">
+                <h2 className="text-slate-900 font-bold text-xl mb-4">
+                  Summary
+                </h2>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <p>Subtotal:</p>
+                    <p>{totalAmount}</p>
+                  </div>
+                  <div className="flex justify-between">
+                    <p>VAT (5%):</p>
+                    <p>{vat}</p>
+                  </div>
+                  <div className="flex justify-between font-bold">
+                    <p>Total Amount:</p>
+                    <p>{taxableAmount}</p>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="mt-8">
               <Button
-                variant="outline"
+                className="bg-green-600 hover:bg-green-500 transition text-white px-4 py-2 rounded-md"
                 size="lg"
                 onClick={() => setPreviewInvoice(true)}
               >
