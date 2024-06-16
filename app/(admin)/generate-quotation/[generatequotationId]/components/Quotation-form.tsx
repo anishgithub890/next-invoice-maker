@@ -18,7 +18,7 @@ import { Pencil, TrashIcon, XIcon } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-import PreviewInvoice from './preview-invoice';
+import PreviewQuotation from './preview-quotation';
 
 interface Item {
   id: string;
@@ -41,8 +41,8 @@ interface Values {
   setBankName: React.Dispatch<React.SetStateAction<string>>;
   bankAccountNumber: string;
   setBankAccountNumber: React.Dispatch<React.SetStateAction<string>>;
-  invoiceDate: string;
-  setInvoiceDate: React.Dispatch<React.SetStateAction<string>>;
+  quotationDate: string;
+  setQuotationDate: React.Dispatch<React.SetStateAction<string>>;
   dueDate: string;
   setDueDate: React.Dispatch<React.SetStateAction<string>>;
   clientName: string;
@@ -79,7 +79,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [bankName, setBankName] = useState('');
   const [bankAccountNumber, setBankAccountNumber] = useState('');
-  const [invoiceDate, setInvoiceDate] = useState('');
+  const [quotationDate, setQuotationDate] = useState('');
   const [dueDate, setDueDate] = useState('');
 
   const [clientName, setClientName] = useState('');
@@ -97,7 +97,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
 
   const [isEditing, setIsEditing] = useState(false);
 
-  const [previewInvoice, setPreviewInvoice] = useState(false);
+  const [previewQuotation, setPreviewQuotation] = useState(false);
 
   const [vat, setVat] = useState(0);
   const [taxableAmount, setTaxableAmount] = useState(0);
@@ -174,8 +174,8 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
     setBankName,
     bankAccountNumber,
     setBankAccountNumber,
-    invoiceDate,
-    setInvoiceDate,
+    quotationDate,
+    setQuotationDate,
     dueDate,
     setDueDate,
     clientName,
@@ -420,7 +420,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         const nextInput =
-                          document.getElementById('invoice-date');
+                          document.getElementById('quotation-date');
                         if (nextInput) {
                           nextInput.focus();
                         }
@@ -434,14 +434,14 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                 </article>
 
                 <article className="article">
-                  <label htmlFor="invoice-date">Invoice date</label>
+                  <label htmlFor="quotation-date">Quotation date</label>
                   <Input
                     type="date"
-                    name="invoice-date"
-                    id="invoice-date"
-                    placeholder="Invoice date"
-                    value={invoiceDate}
-                    onChange={(e) => setInvoiceDate(e.target.value)}
+                    name="quotation-date"
+                    id="quotation-date"
+                    placeholder="Quotation date"
+                    value={quotationDate}
+                    onChange={(e) => setQuotationDate(e.target.value)}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         const nextInput = document.getElementById('due-date');
@@ -451,7 +451,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                       }
                     }}
                   />
-                  <small>Date the invoice was created.</small>
+                  <small>Date the quotation was created.</small>
                 </article>
               </div>
 
@@ -475,7 +475,7 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
                       }
                     }}
                   />
-                  <small>Date the invoice is due.</small>
+                  <small>Date the quotation is due.</small>
                 </article>
               </div>
             </div>
@@ -699,25 +699,25 @@ export const VoucherForm: React.FC<VoucherFormProps> = ({ initialData }) => {
               <Button
                 className="bg-green-600 hover:bg-green-500 transition text-white px-4 py-2 rounded-md"
                 size="lg"
-                onClick={() => setPreviewInvoice(true)}
+                onClick={() => setPreviewQuotation(true)}
               >
-                Preview Invoice
+                Preview Quotation
               </Button>
             </div>
           </form>
         </div>
 
-        {previewInvoice && (
+        {previewQuotation && (
           <div className="fixed inset-0 bg-black/75 z-50 flex items-center justify-center">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full h-full max-h-[80%] max-w-[80%] mx-auto relative overflow-auto">
               <Button
                 variant="secondary"
                 className="absolute top-4 right-4"
-                onClick={() => setPreviewInvoice(false)}
+                onClick={() => setPreviewQuotation(false)}
               >
                 <XIcon className="w-4 h-4" />
               </Button>
-              <PreviewInvoice values={values} />
+              <PreviewQuotation values={values} />
             </div>
           </div>
         )}

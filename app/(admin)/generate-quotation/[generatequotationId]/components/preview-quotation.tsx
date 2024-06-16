@@ -12,14 +12,14 @@ interface Item {
   total: number;
 }
 
-interface InvoiceValues {
+interface QuotationValues {
   name: string;
   email: string;
   address: string;
   clientName: string;
   clientEmail: string;
   clientAddress: string;
-  invoiceDate?: string;
+  quotationDate?: string;
   dueDate?: string;
   items: Item[];
   totalAmount: number;
@@ -31,11 +31,11 @@ interface InvoiceValues {
   phoneNumber?: string;
 }
 
-interface PreviewInvoiceProps {
-  values: InvoiceValues;
+interface PreviewQuotationProps {
+  values: QuotationValues;
 }
 
-const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
+const PreviewQuotation: React.FC<PreviewQuotationProps> = ({ values }) => {
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -60,7 +60,7 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
             const pdfHeight = pdfWidth / aspectRatio;
 
             pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save(`${values.name || 'invoice'}.pdf`);
+            pdf.save(`${values.name || 'quotation'}.pdf`);
           });
         });
       });
@@ -93,13 +93,13 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
           <p className="text-muted-foreground">{values.clientAddress}</p>
         </section>
 
-        {/* Invoice Details */}
+        {/* Quotation Details */}
         <section className="mb-8 text-right">
-          <h2 className="text-2xl text-slate-900 font-bold">TAX INVOICE</h2>
+          <h2 className="text-2xl text-slate-900 font-bold">Quotation</h2>
           <p className="text-muted-foreground">
-            Invoice date:{' '}
-            {values.invoiceDate &&
-              format(new Date(values.invoiceDate), 'do MMMM yyyy')}
+            Quotation date:{' '}
+            {values.quotationDate &&
+              format(new Date(values.quotationDate), 'do MMMM yyyy')}
           </p>
           <p className="text-muted-foreground">
             Due date:{' '}
@@ -238,10 +238,10 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
 
       <div className="mt-4 flex space-x-4">
         <Button variant="outline" size="lg" onClick={handlePrint}>
-          Print Invoice
+          Print Quotation
         </Button>
         <Button variant="outline" size="lg" onClick={handleDownload}>
-          Download Invoice
+          Download Quotation
         </Button>
       </div>
 
@@ -271,4 +271,4 @@ const PreviewInvoice: React.FC<PreviewInvoiceProps> = ({ values }) => {
   );
 };
 
-export default PreviewInvoice;
+export default PreviewQuotation;
